@@ -1,0 +1,19 @@
+{
+  "name": "@akhira/contracts",
+  "description": "Collection of smart contracts deployable via the akhira dashboard and CLI",
+  "version": "2.3.8",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/akhirachain/contracts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/akhirachain/contracts/issues"
+  },
+  "author": "Akhira engineering <mohammed@akhira.io>",
+  "homepage": "https://akhira.io",
+  "files": [
+    "**/*.sol",
+    "/abi"
+  ]
+}
