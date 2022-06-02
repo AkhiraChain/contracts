@@ -52,8 +52,8 @@ contract Marketplace is
     /// @dev The address of the native token wrapper contract.
     address private immutable nativeTokenWrapper;
 
-    /// @dev The thirdweb contract with fee related information.
-    IAkhiraFee public immutable thirdwebFee;
+    /// @dev The akhira contract with fee related information.
+    IAkhiraFee public immutable akhiraFee;
 
     /// @dev Total number of listings ever created in the marketplace.
     uint256 public totalListings;
@@ -113,8 +113,8 @@ contract Marketplace is
                     Constructor + initializer logic
     //////////////////////////////////////////////////////////////*/
 
-    constructor(address _nativeTokenWrapper, address _thirdwebFee) initializer {
-        thirdwebFee = IAkhiraFee(_thirdwebFee);
+    constructor(address _nativeTokenWrapper, address _akhiraFee) initializer {
+        akhiraFee = IAkhiraFee(_akhiraFee);
         nativeTokenWrapper = _nativeTokenWrapper;
     }
 
@@ -707,7 +707,7 @@ contract Marketplace is
     ) internal {
         uint256 platformFeeCut = (_totalPayoutAmount * platformFeeBps) / MAX_BPS;
 
-        (address akhiraFeeRecipient, uint256 akhiraFeeBps) = thirdwebFee.getFeeInfo(address(this), FeeType.MARKET_SALE);
+        (address akhiraFeeRecipient, uint256 akhiraFeeBps) = akhiraFee.getFeeInfo(address(this), FeeType.MARKET_SALE);
         uint256 akhiraFeeCut = (_totalPayoutAmount * akhiraFeeBps) / MAX_BPS;
 
         uint256 royaltyCut;

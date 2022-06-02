@@ -56,13 +56,13 @@ contract DropERC20 is
     /// @dev Only transfers to or from TRANSFER_ROLE holders are valid, when transfers are restricted.
     bytes32 private constant TRANSFER_ROLE = keccak256("TRANSFER_ROLE");
 
-    /// @dev The thirdweb contract with fee related information.
-    IAkhiraFee private immutable thirdwebFee;
+    /// @dev The akhira contract with fee related information.
+    IAkhiraFee private immutable akhiraFee;
 
     /// @dev Contract level metadata.
     string public contractURI;
 
-    /// @dev Max bps in the thirdweb system.
+    /// @dev Max bps in the akhira system.
     uint128 internal constant MAX_BPS = 10_000;
 
     /// @dev The % of primary sales collected as platform fees.
@@ -94,8 +94,8 @@ contract DropERC20 is
                     Constructor + initializer logic
     //////////////////////////////////////////////////////////////*/
 
-    constructor(address _thirdwebFee) initializer {
-        thirdwebFee = IAkhiraFee(_thirdwebFee);
+    constructor(address _akhiraFee) initializer {
+        akhiraFee = IAkhiraFee(_akhiraFee);
     }
 
     /// @dev Initiliazes the contract, like a constructor.
@@ -317,7 +317,7 @@ contract DropERC20 is
         // `_pricePerToken` is interpreted as price per 1 ether unit of the ERC20 tokens.
         uint256 totalPrice = (_quantityToClaim * _pricePerToken) / 1 ether;
         uint256 platformFees = (totalPrice * platformFeeBps) / MAX_BPS;
-        (address akhiraFeeRecipient, uint256 akhiraFeeBps) = thirdwebFee.getFeeInfo(address(this), FeeType.PRIMARY_SALE);
+        (address akhiraFeeRecipient, uint256 akhiraFeeBps) = akhiraFee.getFeeInfo(address(this), FeeType.PRIMARY_SALE);
         uint256 akhiraFee = (totalPrice * akhiraFeeBps) / MAX_BPS;
 
         if (_currency == CurrencyTransferLib.NATIVE_TOKEN) {

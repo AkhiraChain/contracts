@@ -1,14 +1,14 @@
 # Multiwrap design document.
 
-This is a live document that explains what the [thirdweb](https://thirdweb.com/) `Multiwrap` smart contract is, how it works and can be used, and why it is designed the way it is.
+This is a live document that explains what the [akhira](https://akhira.com/) `Multiwrap` smart contract is, how it works and can be used, and why it is designed the way it is.
 
-The document is written for technical and non-technical readers. To ask further questions about thirdweb’s `Multiwrap` contract, please join the [thirdweb discord](https://discord.gg/thirdweb) or create a github issue.
+The document is written for technical and non-technical readers. To ask further questions about akhira’s `Multiwrap` contract, please join the [akhira discord](https://discord.gg/akhira) or create a github issue.
 
 ---
 
 ## Background
 
-The thirdweb Multiwrap contract lets you wrap arbitrary ERC20, ERC721 and ERC1155 tokens you own into a single wrapped token / NFT.
+The akhira Multiwrap contract lets you wrap arbitrary ERC20, ERC721 and ERC1155 tokens you own into a single wrapped token / NFT.
 
 The `Multiwrap` contract is meant to be used for bundling up multiple assets (ERC20 / ERC721 / ERC1155) into a single wrapped token, which can then be unwrapped in exchange for the underlying tokens.
 
@@ -40,9 +40,9 @@ For example, consider a lending service where people can take out a loan while p
 
 ## Technical Details
 
-The `Multiwrap`contract itself is an ERC721 contract. 
+The `Multiwrap`contract itself is an ERC721 contract.
 
-It lets you wrap arbitrary ERC20, ERC721 or ERC1155 tokens you own into a single wrapped token / NFT. This means escrowing the relevant ERC20, ERC721 and ERC1155 tokens into the `Multiwrap` contract, and receiving the wrapped NFT in exchange. 
+It lets you wrap arbitrary ERC20, ERC721 or ERC1155 tokens you own into a single wrapped token / NFT. This means escrowing the relevant ERC20, ERC721 and ERC1155 tokens into the `Multiwrap` contract, and receiving the wrapped NFT in exchange.
 
 This wrapped NFT can later be 'unwrapped' i.e. burned in exchange for the underlying tokens.
 
@@ -91,7 +91,7 @@ function wrap(
 
 ### Unwrapping the wrapped NFT
 
-The single wrapped NFT, received on wrapping multiple assets as explained in the previous section, can be unwrapped in exchange for the underlying assets. 
+The single wrapped NFT, received on wrapping multiple assets as explained in the previous section, can be unwrapped in exchange for the underlying assets.
 
 A wrapped NFT can be unwrapped either by the owner, or a wallet approved by the owner to transfer the NFT via `setApprovalForAll` or `approve` ERC721 functions.
 
@@ -136,4 +136,4 @@ What does **Type (Switch / !Switch)** mean?
 
 ## Authors
 - [nkrishang](https://github.com/nkrishang)
-- [thirdweb team](https://github.com/thirdweb-dev)
+- [akhira team](https://github.com/akhira-dev)

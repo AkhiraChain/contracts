@@ -22,7 +22,7 @@ import "./lib/FeeType.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC1155/IERC1155Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/interfaces/IERC2981Upgradeable.sol";
 
-// Thirdweb top-level
+// Akhira top-level
 import "./interfaces/IAkhiraFee.sol";
 
 contract Pack is
@@ -47,14 +47,14 @@ contract Pack is
     /// @dev Only TRANSFER_ROLE holders can have tokens transferred from or to them, during restricted transfers.
     bytes32 private constant TRANSFER_ROLE = keccak256("TRANSFER_ROLE");
 
-    /// @dev Max bps in the thirdweb system
+    /// @dev Max bps in the akhira system
     uint256 private constant MAX_BPS = 10_000;
 
     /// @dev The address interpreted as native token of the chain.
     address private constant NATIVE_TOKEN = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;
 
-    /// @dev The thirdweb contract with fee related information.
-    IAkhiraFee public immutable thirdwebFee;
+    /// @dev The akhira contract with fee related information.
+    IAkhiraFee public immutable akhiraFee;
 
     /// @dev Owner of the contract (purpose: OpenSea compatibility, etc.)
     address private _owner;
@@ -136,9 +136,9 @@ contract Pack is
     constructor(
         address _vrfCoordinator,
         address _linkToken,
-        address _thirdwebFee
+        address _akhiraFee
     ) VRFConsumerBase(_vrfCoordinator, _linkToken) initializer {
-        thirdwebFee = IAkhiraFee(_thirdwebFee);
+        akhiraFee = IAkhiraFee(_akhiraFee);
     }
 
     /// @dev Initiliazes the contract, like a constructor.

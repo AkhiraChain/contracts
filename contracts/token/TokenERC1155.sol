@@ -31,7 +31,7 @@ import "../openzeppelin-presets/metatx/ERC2771ContextUpgradeable.sol";
 // Helper interfaces
 import "@openzeppelin/contracts-upgradeable/interfaces/IERC2981Upgradeable.sol";
 
-// Thirdweb top-level
+// Akhira top-level
 import "../interfaces/IAkhiraFee.sol";
 
 contract TokenERC1155 is
@@ -71,14 +71,14 @@ contract TokenERC1155 is
     /// @dev Only MINTER_ROLE holders can sign off on `MintRequest`s.
     bytes32 private constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
-    /// @dev Max bps in the thirdweb system
+    /// @dev Max bps in the akhira system
     uint256 private constant MAX_BPS = 10_000;
 
     /// @dev The address interpreted as native token of the chain.
     address private constant NATIVE_TOKEN = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;
 
-    /// @dev The thirdweb contract with fee related information.
-    IAkhiraFee public immutable thirdwebFee;
+    /// @dev The akhira contract with fee related information.
+    IAkhiraFee public immutable akhiraFee;
 
     /// @dev Owner of the contract (purpose: OpenSea compatibility, etc.)
     address private _owner;
@@ -118,8 +118,8 @@ contract TokenERC1155 is
     /// @dev Token ID => royalty recipient and bps for token
     mapping(uint256 => RoyaltyInfo) private royaltyInfoForToken;
 
-    constructor(address _thirdwebFee) initializer {
-        thirdwebFee = IAkhiraFee(_thirdwebFee);
+    constructor(address _akhiraFee) initializer {
+        akhiraFee = IAkhiraFee(_akhiraFee);
     }
 
     /// @dev Initiliazes the contract, like a constructor.
@@ -400,7 +400,7 @@ contract TokenERC1155 is
 
         uint256 totalPrice = _req.pricePerToken * _req.quantity;
         uint256 platformFees = (totalPrice * platformFeeBps) / MAX_BPS;
-        (address akhiraFeeRecipient, uint256 akhiraFeeBps) = thirdwebFee.getFeeInfo(address(this), FeeType.PRIMARY_SALE);
+        (address akhiraFeeRecipient, uint256 akhiraFeeBps) = akhiraFee.getFeeInfo(address(this), FeeType.PRIMARY_SALE);
         uint256 akhiraFee = (totalPrice * akhiraFeeBps) / MAX_BPS;
 
         if (_req.currency == NATIVE_TOKEN) {

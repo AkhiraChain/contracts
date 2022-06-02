@@ -29,7 +29,7 @@ import "@openzeppelin/contracts-upgradeable/utils/MulticallUpgradeable.sol";
 import "../lib/CurrencyTransferLib.sol";
 import "../lib/FeeType.sol";
 
-// Thirdweb top-level
+// Akhira top-level
 import "../interfaces/IAkhiraFee.sol";
 
 contract TokenERC20 is
@@ -60,13 +60,13 @@ contract TokenERC20 is
     bytes32 internal constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
     bytes32 internal constant TRANSFER_ROLE = keccak256("TRANSFER_ROLE");
 
-    /// @dev The thirdweb contract with fee related information.
-    IAkhiraFee internal immutable thirdwebFee;
+    /// @dev The akhira contract with fee related information.
+    IAkhiraFee internal immutable akhiraFee;
 
     /// @dev Returns the URI for the storefront-level metadata of the contract.
     string public contractURI;
 
-    /// @dev Max bps in the thirdweb system
+    /// @dev Max bps in the akhira system
     uint128 internal constant MAX_BPS = 10_000;
 
     /// @dev The % of primary sales collected by the contract as fees.
@@ -81,8 +81,8 @@ contract TokenERC20 is
     /// @dev Mapping from mint request UID => whether the mint request is processed.
     mapping(bytes32 => bool) private minted;
 
-    constructor(address _thirdwebFee) initializer {
-        thirdwebFee = IAkhiraFee(_thirdwebFee);
+    constructor(address _akhiraFee) initializer {
+        akhiraFee = IAkhiraFee(_akhiraFee);
     }
 
     /// @dev Initiliazes the contract, like a constructor.
@@ -221,7 +221,7 @@ contract TokenERC20 is
         }
 
         uint256 platformFees = (_price * platformFeeBps) / MAX_BPS;
-        (address akhiraFeeRecipient, uint256 akhiraFeeBps) = thirdwebFee.getFeeInfo(address(this), FeeType.PRIMARY_SALE);
+        (address akhiraFeeRecipient, uint256 akhiraFeeBps) = akhiraFee.getFeeInfo(address(this), FeeType.PRIMARY_SALE);
         uint256 akhiraFee = (_price * akhiraFeeBps) / MAX_BPS;
 
         if (_currency == CurrencyTransferLib.NATIVE_TOKEN) {

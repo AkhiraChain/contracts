@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.8.11;
 
-// Thirdweb top-level
+// Akhira top-level
 import "./interfaces/IAkhiraFee.sol";
 
 // Base
@@ -29,17 +29,17 @@ contract Split is
     bytes32 private constant MODULE_TYPE = bytes32("Split");
     uint128 private constant VERSION = 1;
 
-    /// @dev Max bps in the thirdweb system
+    /// @dev Max bps in the akhira system
     uint128 private constant MAX_BPS = 10_000;
 
-    /// @dev The thirdweb contract with fee related information.
-    IAkhiraFee public immutable thirdwebFee;
+    /// @dev The akhira contract with fee related information.
+    IAkhiraFee public immutable akhiraFee;
 
     /// @dev Contract level metadata.
     string public contractURI;
 
-    constructor(address _thirdwebFee) initializer {
-        thirdwebFee = IAkhiraFee(_thirdwebFee);
+    constructor(address _akhiraFee) initializer {
+        akhiraFee = IAkhiraFee(_akhiraFee);
     }
 
     /// @dev Performs the job of the constructor.
@@ -104,7 +104,7 @@ contract Split is
 
         // fees
         uint256 fee = 0;
-        (address feeRecipient, uint256 feeBps) = thirdwebFee.getFeeInfo(address(this), FeeType.SPLIT);
+        (address feeRecipient, uint256 feeBps) = akhiraFee.getFeeInfo(address(this), FeeType.SPLIT);
         if (feeRecipient != address(0) && feeBps > 0) {
             fee = (payment * feeBps) / MAX_BPS;
             AddressUpgradeable.sendValue(payable(feeRecipient), fee);
@@ -132,7 +132,7 @@ contract Split is
 
         // fees
         uint256 fee = 0;
-        (address feeRecipient, uint256 feeBps) = thirdwebFee.getFeeInfo(address(this), FeeType.SPLIT);
+        (address feeRecipient, uint256 feeBps) = akhiraFee.getFeeInfo(address(this), FeeType.SPLIT);
         if (feeRecipient != address(0) && feeBps > 0) {
             fee = (payment * feeBps) / MAX_BPS;
             SafeERC20Upgradeable.safeTransfer(token, feeRecipient, fee);

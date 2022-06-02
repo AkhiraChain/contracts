@@ -30,7 +30,7 @@ contract AkhiraFeeTest is BaseTest {
 
     // Test params
     address internal trustedForwarder = address(0x4);
-    address internal thirdwebTreasury = address(0x5);
+    address internal akhiraTreasury = address(0x5);
 
     //  =====   Set up  =====
 

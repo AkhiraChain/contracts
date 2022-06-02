@@ -55,36 +55,36 @@ async function main() {
   const trustedForwarderAddress: string = trustedForwarder.address;
 
   // Deploy AkhiraRegistry
-  const thirdwebRegistry = await (
+  const akhiraRegistry = await (
     await ethers.getContractFactory("AkhiraRegistry")
   ).deploy(trustedForwarderAddress, options);
-  //const thirdwebRegistry = await ethers.getContractAt("AkhiraRegistry", "0x7c487845f98938Bb955B1D5AD069d9a30e4131fd");
-  console.log("Deploying AkhiraRegistry at tx: ", thirdwebRegistry.deployTransaction?.hash);
-  await thirdwebRegistry.deployed();
-  console.log("AkhiraRegistry address: ", thirdwebRegistry.address);
+  //const akhiraRegistry = await ethers.getContractAt("AkhiraRegistry", "0x7c487845f98938Bb955B1D5AD069d9a30e4131fd");
+  console.log("Deploying AkhiraRegistry at tx: ", akhiraRegistry.deployTransaction?.hash);
+  await akhiraRegistry.deployed();
+  console.log("AkhiraRegistry address: ", akhiraRegistry.address);
 
   // Deploy AkhiraFactory and AkhiraRegistry
-  const thirdwebFactory = await (
+  const akhiraFactory = await (
     await ethers.getContractFactory("AkhiraFactory")
-  ).deploy(trustedForwarderAddress, thirdwebRegistry.address, options);
-  //const thirdwebFactory = await ethers.getContractAt("AkhiraFactory", "0xd24b3de085CFd8c54b94feAD08a7962D343E6DE0");
-  console.log("Deploying AkhiraFactory at tx: ", thirdwebFactory.deployTransaction?.hash);
-  await thirdwebFactory.deployed();
-  console.log("AkhiraFactory address: ", thirdwebFactory.address);
+  ).deploy(trustedForwarderAddress, akhiraRegistry.address, options);
+  //const akhiraFactory = await ethers.getContractAt("AkhiraFactory", "0xd24b3de085CFd8c54b94feAD08a7962D343E6DE0");
+  console.log("Deploying AkhiraFactory at tx: ", akhiraFactory.deployTransaction?.hash);
+  await akhiraFactory.deployed();
+  console.log("AkhiraFactory address: ", akhiraFactory.address);
 
   // Deploy AkhiraFee
-  const thirdwebFee: AkhiraFee = await ethers
+  const akhiraFee: AkhiraFee = await ethers
     .getContractFactory("AkhiraFee")
-    .then(f => f.deploy(trustedForwarderAddress, thirdwebFactory.address, options));
-  //const thirdwebFee = await ethers.getContractAt("AkhiraFee", "0x8C4B615040Ebd2618e8fC3B20ceFe9abAfdEb0ea");
-  console.log("Deploying AkhiraFee at tx: ", thirdwebFee.deployTransaction?.hash);
-  await thirdwebFee.deployed();
-  console.log("AkhiraFee address: ", thirdwebFee.address);
+    .then(f => f.deploy(trustedForwarderAddress, akhiraFactory.address, options));
+  //const akhiraFee = await ethers.getContractAt("AkhiraFee", "0x8C4B615040Ebd2618e8fC3B20ceFe9abAfdEb0ea");
+  console.log("Deploying AkhiraFee at tx: ", akhiraFee.deployTransaction?.hash);
+  await akhiraFee.deployed();
+  console.log("AkhiraFee address: ", akhiraFee.address);
 
   // Deploy a test implementation: Drop721
   const drop721: DropERC721 = await ethers
     .getContractFactory("DropERC721")
-    .then(f => f.deploy(thirdwebFee.address, options))
+    .then(f => f.deploy(akhiraFee.address, options))
     .then(f => f.deployed());
   //const drop721 = await ethers.getContractAt("DropERC721", "0xcF4c511551aE4dab1F997866FC3900cd2aaeC40D");
   console.log("Deploying DropERC721 at tx: ", drop721.deployTransaction?.hash);
@@ -93,7 +93,7 @@ async function main() {
   // Deploy a test implementation: Drop1155
   const drop1155: DropERC1155 = await ethers
     .getContractFactory("DropERC1155")
-    .then(f => f.deploy(thirdwebFee.address, options))
+    .then(f => f.deploy(akhiraFee.address, options))
     .then(f => f.deployed());
   console.log("Deploying Drop1155 at tx: ", drop1155.deployTransaction.hash);
   console.log("Drop1155 address: ", drop1155.address);
@@ -101,7 +101,7 @@ async function main() {
   // Deploy a test implementation: TokenERC20
   const tokenERC20: TokenERC20 = await ethers
     .getContractFactory("TokenERC20")
-    .then(f => f.deploy(thirdwebFee.address, options))
+    .then(f => f.deploy(akhiraFee.address, options))
     .then(f => f.deployed());
   console.log("Deploying TokenERC20 at tx: ", tokenERC20.deployTransaction.hash);
   console.log("TokenERC20 address: ", tokenERC20.address);
@@ -111,7 +111,7 @@ async function main() {
   // Deploy a test implementation: TokenERC721
   const tokenERC721: TokenERC721 = await ethers
     .getContractFactory("TokenERC721")
-    .then(f => f.deploy(thirdwebFee.address, options))
+    .then(f => f.deploy(akhiraFee.address, options))
     .then(f => f.deployed());
   console.log("Deploying TokenERC721 at tx: ", tokenERC721.deployTransaction.hash);
   console.log("TokenERC721 address: ", tokenERC721.address);
@@ -120,21 +120,21 @@ async function main() {
   // Deploy a test implementation: TokenERC1155
   const tokenERC1155: TokenERC1155 = await ethers
     .getContractFactory("TokenERC1155")
-    .then(f => f.deploy(thirdwebFee.address, options))
+    .then(f => f.deploy(akhiraFee.address, options))
     .then(f => f.deployed());
   console.log("Deploying TokenERC1155 at tx: ", tokenERC1155.deployTransaction.hash);
   console.log("TokenERC1155 address: ", tokenERC1155.address);
 
   const split: Split = await ethers
     .getContractFactory("Split")
-    .then(f => f.deploy(thirdwebFee.address, options))
+    .then(f => f.deploy(akhiraFee.address, options))
     .then(f => f.deployed());
   console.log("Deploying Split at tx: ", split.deployTransaction.hash);
   console.log("Split address: ", split.address);
 
   const marketplace: Marketplace = await ethers
     .getContractFactory("Marketplace")
-    .then(f => f.deploy(nativeTokenWrapper[ethers.provider.network.chainId], thirdwebFee.address, options))
+    .then(f => f.deploy(nativeTokenWrapper[ethers.provider.network.chainId], akhiraFee.address, options))
     .then(f => f.deployed());
   console.log("Deploying Marketplace at tx: ", marketplace.deployTransaction.hash);
   console.log("Marketplace address: ", marketplace.address);
@@ -146,39 +146,39 @@ async function main() {
   console.log("Deploying vote at tx: ", vote.deployTransaction.hash);
   console.log("Vote address: ", vote.address);
 
-  const tx = await thirdwebFactory.multicall(
+  const tx = await akhiraFactory.multicall(
     [
-      thirdwebFactory.interface.encodeFunctionData("addImplementation", [drop721.address]),
-      thirdwebFactory.interface.encodeFunctionData("addImplementation", [drop1155.address]),
-      thirdwebFactory.interface.encodeFunctionData("addImplementation", [tokenERC20.address]),
-      thirdwebFactory.interface.encodeFunctionData("addImplementation", [tokenERC721.address]),
-      thirdwebFactory.interface.encodeFunctionData("addImplementation", [tokenERC1155.address]),
-      thirdwebFactory.interface.encodeFunctionData("addImplementation", [split.address]),
-      thirdwebFactory.interface.encodeFunctionData("addImplementation", [marketplace.address]),
-      thirdwebFactory.interface.encodeFunctionData("addImplementation", [vote.address]),
+      akhiraFactory.interface.encodeFunctionData("addImplementation", [drop721.address]),
+      akhiraFactory.interface.encodeFunctionData("addImplementation", [drop1155.address]),
+      akhiraFactory.interface.encodeFunctionData("addImplementation", [tokenERC20.address]),
+      akhiraFactory.interface.encodeFunctionData("addImplementation", [tokenERC721.address]),
+      akhiraFactory.interface.encodeFunctionData("addImplementation", [tokenERC1155.address]),
+      akhiraFactory.interface.encodeFunctionData("addImplementation", [split.address]),
+      akhiraFactory.interface.encodeFunctionData("addImplementation", [marketplace.address]),
+      akhiraFactory.interface.encodeFunctionData("addImplementation", [vote.address]),
     ],
     options,
   );
   console.log("Adding implementations at tx: ", tx.hash);
   await tx.wait();
 
-  const tx2 = await thirdwebRegistry.grantRole(await thirdwebRegistry.OPERATOR_ROLE(), thirdwebFactory.address);
+  const tx2 = await akhiraRegistry.grantRole(await akhiraRegistry.OPERATOR_ROLE(), akhiraFactory.address);
   await tx2.wait();
   console.log("grant role: ", tx2.hash);
 
   console.log("DONE. Now verifying contracts...");
 
-  await verify(thirdwebRegistry.address, [trustedForwarderAddress]);
-  await verify(thirdwebFactory.address, [trustedForwarderAddress, thirdwebRegistry.address]);
-  await verify(thirdwebFee.address, [trustedForwarderAddress, thirdwebFactory.address]);
-  await verify(drop721.address, [thirdwebFee.address]);
-  await verify(drop1155.address, [thirdwebFee.address]);
-  await verify(tokenERC20.address, [thirdwebFee.address]);
-  await verify(tokenERC721.address, [thirdwebFee.address]);
-  await verify(tokenERC1155.address, [thirdwebFee.address]);
-  await verify(split.address, [thirdwebFee.address]);
+  await verify(akhiraRegistry.address, [trustedForwarderAddress]);
+  await verify(akhiraFactory.address, [trustedForwarderAddress, akhiraRegistry.address]);
+  await verify(akhiraFee.address, [trustedForwarderAddress, akhiraFactory.address]);
+  await verify(drop721.address, [akhiraFee.address]);
+  await verify(drop1155.address, [akhiraFee.address]);
+  await verify(tokenERC20.address, [akhiraFee.address]);
+  await verify(tokenERC721.address, [akhiraFee.address]);
+  await verify(tokenERC1155.address, [akhiraFee.address]);
+  await verify(split.address, [akhiraFee.address]);
   await verify(vote.address, []);
-  await verify(marketplace.address, [nativeTokenWrapper[ethers.provider.network.chainId], thirdwebFee.address]);
+  await verify(marketplace.address, [nativeTokenWrapper[ethers.provider.network.chainId], akhiraFee.address]);
 }
 
 main()

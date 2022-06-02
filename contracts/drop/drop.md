@@ -1,14 +1,14 @@
 # Drop design document.
 
-This is a live document that explains what the [thirdweb](https://thirdweb.com/) `Drop` smart contracts are, how they work and can be used, and why they are written the way they are.
+This is a live document that explains what the [Akhira](https://Akhira.com/) `Drop` smart contracts are, how they work and can be used, and why they are written the way they are.
 
-The document is written for technical and non-technical readers. To ask further questions about any of thirdweb’s `Drop`, please join the [thirdweb discord](https://discord.gg/thirdweb) or create a github issue.
+The document is written for technical and non-technical readers. To ask further questions about any of Akhira’s `Drop`, please join the [Akhira discord](https://discord.gg/Akhira) or create a github issue.
 
 ---
 
 ## Background
 
-The thirdweb `Drop` contracts are distribution mechanisms for tokens. This distribution mechanism is offered for ERC20, ERC721 and ERC1155 tokens, as `DropERC20`, `DropERC721` and `DropERC1155`.
+The Akhira `Drop` contracts are distribution mechanisms for tokens. This distribution mechanism is offered for ERC20, ERC721 and ERC1155 tokens, as `DropERC20`, `DropERC721` and `DropERC1155`.
 
 The `Drop` contracts are meant to be used when the goal of the contract creator is for an audience to come in and claim tokens within certain restrictions e.g. — ‘only addresses in an allowlist can mint tokens’, or ‘minters must pay *x* amount of price in *y* currency to mint’, etc.
 
@@ -23,9 +23,9 @@ We’ve observed that there are largely three distinct contexts under which one 
     1. The nature of tokens to be minted by the audience is pre-determined by the contract admin. E.g. a 10k NFT drop where the contents of the NFTs to be minted by the audience is already known and determined by the contract admin before the audience comes in to mint NFTs.
     2. The nature of tokens to be minted by the audience is *not* pre-determined by the contract admin. E.g. a course ‘certificate’ dynamically generated with the name of the course participant, to be minted by the course participant at the time of course completion.
 
-The thirdweb `Token` contracts serve the cases described in (1) and 2(ii).
+The Akhira `Token` contracts serve the cases described in (1) and 2(ii).
 
-The thirdweb `Drop` contracts serve the case described in 2(i). They are written to give a contract creator granular control over restrictions around an audience minting tokens from the same contract (or ‘collection’, in the case of NFTs) over an extended period of time.
+The Akhira `Drop` contracts serve the case described in 2(i). They are written to give a contract creator granular control over restrictions around an audience minting tokens from the same contract (or ‘collection’, in the case of NFTs) over an extended period of time.
 
 ## Technical Details
 
@@ -118,7 +118,7 @@ Let’s say an existing claim condition **C1** specifies the following restricti
 - `pricePerToken = 0.1 ether`
 - `currency = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE` (i.e. native token of the chain e.g ether for Ethereum mainnet)
 
-At a high level, **C1** expresses the following restrictions on minting — any address can claim at most one token, ever, by paying 0.1 ether in price. 
+At a high level, **C1** expresses the following restrictions on minting — any address can claim at most one token, ever, by paying 0.1 ether in price.
 
 Let’s say the contract admin wants to increase the price per token from 0.1 ether to 0.2 ether, while ensuring that wallets that have already claimed tokens are not able to claim tokens again. Essentially, the contract admin now wants to instantiate a claim condition **C2** with the following restrictions:
 
@@ -132,7 +132,7 @@ To go from **C1** to **C2** while ensuring that wallets that have already claime
 
 ```solidity
 // pseudo-code
-nextValidClaimTimestamp = 
+nextValidClaimTimestamp =
 		limitLastClaimTimestamp[UID_of_C2][claimer_address] + C2.waitTimeInSecondsBetweenClaims
 
 require(block.timestamp >= nextValidClaimTimestamp);
@@ -140,7 +140,7 @@ require(block.timestamp >= nextValidClaimTimestamp);
 
 ### EIPs supported / implemented
 
-The distribution mechanism for tokens expressed by thirdweb’s `Drop` is implemented for ERC20, ERC721 and ERC1155 tokens, as `DropERC20`, `DropERC721` and `DropERC1155`.
+The distribution mechanism for tokens expressed by Akhira’s `Drop` is implemented for ERC20, ERC721 and ERC1155 tokens, as `DropERC20`, `DropERC721` and `DropERC1155`.
 
 There are a few key differences between the three implementations —
 
@@ -149,10 +149,10 @@ There are a few key differences between the three implementations —
 
 ## Limitations
 
-The distribution mechanism of thirdweb’s `Drop` contracts is vulnerable to [sybil attacks](https://en.wikipedia.org/wiki/Sybil_attack). That is, despite the various ways in which restrictions can be applied to the minting of tokens, some restrictions that claim conditions can express target wallets and not persons.
+The distribution mechanism of Akhira’s `Drop` contracts is vulnerable to [sybil attacks](https://en.wikipedia.org/wiki/Sybil_attack). That is, despite the various ways in which restrictions can be applied to the minting of tokens, some restrictions that claim conditions can express target wallets and not persons.
 
 For example, the restriction `waitTimeInSecondsBetweenClaims` expresses the least amount of time a *wallet* must wait, before claiming tokens again during the respective claim condition. A sophisticated actor may generate multiple wallets to claim tokens in a way that undermine such restrictions, when viewing such restrictions as restrictions on unique persons, and not wallets.
 
 ## Authors
 - [nkrishang](https://github.com/nkrishang)
-- [thirdweb team](https://github.com/thirdweb-dev)
+- [Akhira team](https://github.com/Akhira-dev)

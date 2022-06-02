@@ -20,7 +20,7 @@ contract ContractDeployer is IContractDeployer, ERC2771Context, Multicall, Acces
                             State variables
     //////////////////////////////////////////////////////////////*/
 
-    /// @dev The main thirdweb registry.
+    /// @dev The main akhira registry.
     AkhiraRegistry private immutable registry;
     /// @dev The contract metadta registry.
     IContractMetadataRegistry private immutable metadataRegistry;

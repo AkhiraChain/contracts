@@ -66,11 +66,11 @@ contract SignatureDrop is
     /// @dev Only MINTER_ROLE holders can sign off on `MintRequest`s and lazy mint tokens.
     bytes32 private constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
-    /// @dev Max bps in the thirdweb system.
+    /// @dev Max bps in the akhira system.
     uint256 private constant MAX_BPS = 10_000;
 
-    /// @dev The thirdweb contract with fee related information.
-    IAkhiraFee private immutable thirdwebFee;
+    /// @dev The akhira contract with fee related information.
+    IAkhiraFee private immutable akhiraFee;
 
     /// @dev The tokenId of the next NFT that will be minted / lazy minted.
     uint256 public nextTokenIdToMint;
@@ -94,8 +94,8 @@ contract SignatureDrop is
                     Constructor + initializer logic
     //////////////////////////////////////////////////////////////*/
 
-    constructor(address _thirdwebFee) initializer {
-        thirdwebFee = IAkhiraFee(_thirdwebFee);
+    constructor(address _akhiraFee) initializer {
+        akhiraFee = IAkhiraFee(_akhiraFee);
     }
 
     /// @dev Initiliazes the contract, like a constructor.
@@ -269,7 +269,7 @@ contract SignatureDrop is
 
         uint256 totalPrice = _quantityToClaim * _pricePerToken;
         uint256 platformFees = (totalPrice * platformFeeBps) / MAX_BPS;
-        (address akhiraFeeRecipient, uint256 akhiraFeeBps) = thirdwebFee.getFeeInfo(address(this), FeeType.PRIMARY_SALE);
+        (address akhiraFeeRecipient, uint256 akhiraFeeBps) = akhiraFee.getFeeInfo(address(this), FeeType.PRIMARY_SALE);
         uint256 akhiraFee = (totalPrice * akhiraFeeBps) / MAX_BPS;
 
         if (_currency == CurrencyTransferLib.NATIVE_TOKEN) {

@@ -6,7 +6,7 @@ import { AkhiraRegistry, ContractMetadataRegistry, ContractDeployer, ContractPub
 
 /**
  *
- *  There is a mock `AkhiraRegistry` deployed on testnets for the purposes of thirdweb deploy testing.
+ *  There is a mock `AkhiraRegistry` deployed on testnets for the purposes of akhira deploy testing.
  *
  *  This script does the following:
  *      (1) deploys `contracts/ContractMetadataRegistry` and `contracts/ContractDeployer`.
